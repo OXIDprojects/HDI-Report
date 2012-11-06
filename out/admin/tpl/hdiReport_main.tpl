@@ -100,7 +100,7 @@ wvs = [{ oxmultilang ident="HDIREPORT_WEEKVALUESSHORT"}];
     [{ oxmultilang ident="HDIREPORT_FENDDATE"}]<br>
     <input type="text" class="date" id="end" name="enddate" value="[{$enddate}]" /><br>
     <a class="afake" onClick="setDate(1)">&raquo;[{ oxmultilang ident="HDIREPORT_FTHISMONTH"}]</a><br>
-    <a class="afake" onClick="setDate(2)">&raquo;[{ oxmultilang ident="HDIREPORT_FLASTMONTH"}]t</a><br>
+    <a class="afake" onClick="setDate(2)">&raquo;[{ oxmultilang ident="HDIREPORT_FLASTMONTH"}]</a><br>
     <a class="afake" onClick="setDate(3)">&raquo;[{ oxmultilang ident="HDIREPORT_FTHISYEAR"}]</a><br>
     <a class="afake" onClick="setDate(4)">&raquo;[{ oxmultilang ident="HDIREPORT_FLASTYEAR"}]</a><br>
     <a class="afake" onClick="setDate(5)">&raquo;[{ oxmultilang ident="HDIREPORT_FALL"}]</a></td>
