@@ -8,11 +8,17 @@ Originally registered: 2011-12-08 by Rafael Dabrowski on former OXIDforge.
 
 Installation: 
 
-  1. Copy content of folder "copy_this" into /  (=> rootfolder)
+    1. Copy content of folder "copy_this" into /  (=> rootfolder)
 	
 	2. Delete content of /tmp
+	
+	3. Activate in "Extensions" -> "Modules"
+	
+	4. maybe you need to log out and log in again to Admin
+	
+	5. check below "Administer Orders"
 
-	7. Be Happy :)
+	6. Be Happy :)
 	
 Changelog: 
 
