@@ -8,11 +8,17 @@ Originally registered: 2011-12-08 by Rafael Dabrowski on former OXIDforge.
 
 Installation: 
 
-  1. Copy content of folder "copy_this" into /  (=> rootfolder)
+    1. Copy content of folder "copy_this" into /  (=> rootfolder)
 	
 	2. Delete content of /tmp
+	
+	3. Activate in "Extensions" -> "Modules"
+	
+	4. maybe you need to log out and log in again to Admin
+	
+	5. check below "Administer Orders"
 
-	7. Be Happy :)
+	6. Be Happy :)
 	
 Changelog: 
 
@@ -21,6 +27,8 @@ Changelog:
 	v0.9.1: Bug Fixes
 	v0.9.2: New Filter for max and minimum Values; New limit filter; Possible output as table; Layout improvement; New sortcriteria 
 	v0.9.3: Added metadata.php to use the extension in OXID > 4.5 
+	v0.9.4: Changed structure for use in OXID > 4.7
+	
 Licensing: 
 
 	HEINER DIRECT GmbH & Co KG
