@@ -1,6 +1,6 @@
 [{*
 *
-* Piwik Tracking Block 
+* Piwik Tracking Block
 * for Oxid eShop 4.5.0
 *
 *  This program is free software: you can redistribute it and/or modify
@@ -28,15 +28,15 @@
  "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link href="[{$oViewConf->getResourceUrl()}]hdiReport.css" type="text/css" rel="Stylesheet">
-<script src="[{$oViewConf->getResourceUrl()}]amcharts/javascript/amcharts.js" type="text/javascript"></script>
-<script src="[{$oViewConf->getResourceUrl()}]amcharts/javascript/raphael.js" type="text/javascript"></script>
+<link href="[{$oViewConf->getModuleUrl('hdiReport','src/hdiReport.css')}]" type="text/css" rel="Stylesheet">
+<script src="[{$oViewConf->getModuleUrl('hdiReport','src/amcharts/javascript/amcharts.js')}]" type="text/javascript"></script>
+<script src="[{$oViewConf->getModuleUrl('hdiReport','src/amcharts/javascript/raphael.js')}]" type="text/javascript"></script>
 <script type="text/javascript">
 var selflink = "[{$oViewConf->getSelfLink()}]";
 var resourceurl = "[{$oViewConf->getResourceUrl()}]";
 var currency = "[{ $oActCur->name }]";
 var favView = [{$oView->load_conf()}];
-var aLang = new Array(); 
+var aLang = new Array();
 aLang["date"] = "[{ oxmultilang ident="HDIREPORT_DATE"}]";
 aLang["month"] = "[{ oxmultilang ident="HDIREPORT_MONTH"}]";
 aLang["value"] = "[{ oxmultilang ident="HDIREPORT_VALUE"}]";
@@ -56,7 +56,7 @@ wvs = [{ oxmultilang ident="HDIREPORT_WEEKVALUESSHORT"}];
 
 
 </script>
-<script src="[{$oViewConf->getResourceUrl()}]hdiReport.js" type="text/javascript"></script>
+<script src="[{$oViewConf->getModuleUrl('hdiReport','src/hdiReport.js')}]" type="text/javascript"></script>
 </head>
 <body>
 <div id="hdicontrol">
@@ -82,7 +82,7 @@ wvs = [{ oxmultilang ident="HDIREPORT_WEEKVALUESSHORT"}];
 	<b>[{ oxmultilang ident="HDIREPORT_DISPLAYVALUES"}]</b><br>
     <input id="selnetto" class="chaval selnetto readonly" type="checkbox" name="netto" value="checked" checked><label for="selnetto" class="selnetto readonly">[{ oxmultilang ident="HDIREPORT_BRUTTO"}]</label><br>
     <input id="selvers" type="checkbox" name="versand" value="checked" checked class="readonly"><label for="selvers" class="readonly">[{ oxmultilang ident="HDIREPORT_ADDCOSTS"}]</label></td>
-   
+
    </td>
    	<td>
 	<b>[{ oxmultilang ident="HDIREPORT_SORT"}] </b><input name="aufsteigend" class="chaval" type="checkbox">[{oxmultilang ident="HDIREPORT_ASC"}]<br>
@@ -104,8 +104,8 @@ wvs = [{ oxmultilang ident="HDIREPORT_WEEKVALUESSHORT"}];
     <a class="afake" onClick="setDate(3)">&raquo;[{ oxmultilang ident="HDIREPORT_FTHISYEAR"}]</a><br>
     <a class="afake" onClick="setDate(4)">&raquo;[{ oxmultilang ident="HDIREPORT_FLASTYEAR"}]</a><br>
     <a class="afake" onClick="setDate(5)">&raquo;[{ oxmultilang ident="HDIREPORT_FALL"}]</a></td>
-    <td valign="top"><br>[{$oView->getMarketingForm()}] 
-	
+    <td valign="top"><br>[{$oView->getMarketingForm()}]
+
     [{ oxmultilang ident="HDIREPORT_FBYPRODUCT"}]<br>
     <input type="text" name="prodfilter" class="chaval" value="">
     <br>
@@ -114,7 +114,7 @@ wvs = [{ oxmultilang ident="HDIREPORT_WEEKVALUESSHORT"}];
 	[{ oxmultilang ident="HDIREPORT_FMAXREVENUE"}]<br>
 <input type="text" class="chaval" name="maxumsatz"><br>
 	[{ oxmultilang ident="HDIREPORT_FLIMIT"}]<br>
-	<input type="text" name="limit" class="chaval" >	
+	<input type="text" name="limit" class="chaval" >
 	</td>
   </tr>
 </table>

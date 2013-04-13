@@ -6,7 +6,10 @@
 $sMetadataVersion = '1.0';
  
 /**
- * Module information
+ * 
+ * Changelog:
+* 13.4.2013 - Josef Andreas Puckl (info@ecomstyle.de) - Moved all files to modules-folder
+* Module information
  */
 $aModule = array(
     'id'           => 'hdiReport',
@@ -19,10 +22,13 @@ $aModule = array(
     'extend'       => array(
     ),
     'files' => array(
-        'hdi_report'                        => 'admin/hdi_report.php',
+        'hdi_report'                        => 'hdiReport/admin/hdi_report.php',
     ),
     'blocks' => array(
     ),
    'settings' => array(
-    )
+    ),
+    'templates' => array(
+    	'hdiReport_main.tpl' => 'hdiReport/out/admin/tpl/hdiReport_main.tpl',
+    	)
 );
