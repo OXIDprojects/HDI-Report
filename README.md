@@ -28,6 +28,7 @@ Changelog:
 	v0.9.2: New Filter for max and minimum Values; New limit filter; Possible output as table; Layout improvement; New sortcriteria 
 	v0.9.3: Added metadata.php to use the extension in OXID > 4.5 
 	v0.9.4: Changed structure for use in OXID > 4.7
+	v0.9.4b: Moved all files to module-folder for use in OXID > 4.7
 	
 Licensing: 
 
