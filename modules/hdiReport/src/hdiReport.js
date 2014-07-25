@@ -46,7 +46,7 @@ var valAxis1;
 var valAxis2;
 var hasAdded = [];
 var isCtrl = 0;
-var history = [];
+var hdiHistory = [];
 var allData = [];
 $(document).ready(function () {
     $.tools.dateinput.localize("lang", {
@@ -153,8 +153,8 @@ function switchtable()
 
 
 function addHistory(change) {
-    history.push($("#diaform").serializeArray());
-    location.hash = history.length - 1;
+    hdiHistory.push($("#diaform").serializeArray());
+    location.hash = hdiHistory.length - 1;
 }
 
 function generateTable()
@@ -319,8 +319,8 @@ switchtable();
 function _getData(i) {
 	$("#wait").addClass("wait");
     
-    deserialize(history[i]);
-    $.getJSON(selflink, history[i], function (data) {
+    deserialize(hdiHistory[i]);
+    $.getJSON(selflink, hdiHistory[i], function (data) {
         chart.dataProvider = data;
 		allData = data; 
         getTotal(data);
