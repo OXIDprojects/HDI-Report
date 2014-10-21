@@ -54,8 +54,8 @@ $aLang = array(
 'HDIREPORT_SAVED' => "OK gespeichert",
 'HDIREPORT_SAVEDERR' => "Fehler bitte nochmal probieren",
 'HDIREPORT_ASC' => "Aufsteigend?",
-'HDIREPORT_MONTHVALUES' => '["Januar","Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]',
-'HDIREPORT_MONTHVALUESSHORT' => '["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"]', 
+'HDIREPORT_MONTHVALUES' => '["Januar","Februar", "M&auml;rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]',
+'HDIREPORT_MONTHVALUESSHORT' => '["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"]',
 'HDIREPORT_WEEKVALUES' => '["Sonntag","Montag", "Dienstag", "Mittwoch", "Donenrstag", "Freitag","Samstag"]',
 'HDIREPORT_WEEKVALUESSHORT' =>'["So","Mo","Di","Mi","Do","Fr","Sa"]'
 
