@@ -1,13 +1,7 @@
 <?php
-/**
- * Dies ist die Sprachdatei für das Backend und das Menü 
- * Sie kommt in den Ordner: out/admin/de
- *
- * 
- */
 $sLangName  = 'Deutsch';
 $aLang = array(
-'charset' => 'UTF-8',
+'charset' => 'ISO-8859-15',
 'hdiReport_main' => 'HDIReport',
 'hdiReport_menuitem' => 'Bestellungen Verwalten',
 'hdiReport_menusubitem' => 'HDIReport',

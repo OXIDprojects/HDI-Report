@@ -24,11 +24,14 @@
 *  @license GPLv3
 *
 */
-
+/**
+ * Changelog:
+ * 17.10.2014 - Josef Andreas Puckl (info@ecomstyle.de) - Compatibility to 4.9
+ */
 class hdi_report extends oxAdminView
 {
-	//Definition der ZEntralen Daten
-	//TemplateFile
+//Definition der ZEntralen Daten
+//TemplateFile
 	protected $_sThisTemplate = "hdiReport_main.tpl";
 	public $_sChart = '';
 	protected $_oOrderList = null;
@@ -36,206 +39,186 @@ class hdi_report extends oxAdminView
 	protected $_avg = 0;
 	protected $stdRef = "4005001";
 	protected $hasMarkCodes = false;
-
 	//Render Funktion wird bei jedem Seitenaufruf aufgerufen
 	public function render()
 	{
-//      ini_set('display_errors', true);
-		parent::render();
-
+	//      ini_set('display_errors', true);
+		parent :: render();
 		setlocale(LC_TIME, "de_DE");
 		//Auslesen/definieren der Formular Werte
-		$this->startdate = (oxConfig::getParameter("startdate") != "")? oxConfig::getParameter("startdate"): date("Y-m-")."01";
-		$this->enddate = (oxConfig::getParameter("enddate") != "")? oxConfig::getParameter("enddate"): date("Y-m-d");
-		$this->art = (oxConfig::getParameter("art") != "")? oxConfig::getParameter("art"): "UmsatzDatum";
-		$this->chart = (oxConfig::getParameter("chart") != "")? oxConfig::getParameter("chart"): "column";
-		$this->catfilter = (oxConfig::getParameter("catfilter") != "")? oxConfig::getParameter("catfilter") :"0";
-		$this->markfilter = (oxConfig::getParameter("markfilter") != "ohne")? oxConfig::getParameter("markfilter") :"ohne";
-		$this->prodfilter = (oxConfig::getParameter("prodfilter") != "")? oxConfig::getParameter("prodfilter") :"";
-		$this->groupvars = oxConfig::getParameter("groupvars");
-		$this->sort = oxConfig::getParameter("sort");
-		$this->netto = oxConfig::getParameter("netto");
-		$this->tpl = oxConfig::getParameter("tpl");
-		$this->fav = oxConfig::getParameter("fav");
-		$this->maxval = $this->toFloat(oxConfig::getParameter("maxumsatz"));
-		$this->minval = $this->toFloat(oxConfig::getParameter("minumsatz"));
-		$this->limit = intval(oxConfig::getParameter("limit"));
-
-		
+		$this->startdate = (oxRegistry :: getConfig()->getRequestParameter("startdate") != "") ? oxRegistry :: getConfig()->getRequestParameter("startdate") : date("Y-m-") . "01";
+		$this->enddate = (oxRegistry :: getConfig()->getRequestParameter("enddate") != "") ? oxRegistry :: getConfig()->getRequestParameter("enddate") : date("Y-m-d");
+		$this->art = (oxRegistry :: getConfig()->getRequestParameter("art") != "") ? oxRegistry :: getConfig()->getRequestParameter("art") : "UmsatzDatum";
+		$this->chart = (oxRegistry :: getConfig()->getRequestParameter("chart") != "") ? oxRegistry :: getConfig()->getRequestParameter("chart") : "column";
+		$this->catfilter = (oxRegistry :: getConfig()->getRequestParameter("catfilter") != "") ? oxRegistry :: getConfig()->getRequestParameter("catfilter") : "0";
+		$this->markfilter = (oxRegistry :: getConfig()->getRequestParameter("markfilter") != "ohne") ? oxRegistry :: getConfig()->getRequestParameter("markfilter") : "ohne";
+		$this->prodfilter = (oxRegistry :: getConfig()->getRequestParameter("prodfilter") != "") ? oxRegistry :: getConfig()->getRequestParameter("prodfilter") : "";
+		$this->groupvars = oxRegistry :: getConfig()->getRequestParameter("groupvars");
+		$this->sort = oxRegistry :: getConfig()->getRequestParameter("sort");
+		$this->netto = oxRegistry :: getConfig()->getRequestParameter("netto");
+		$this->tpl = oxRegistry :: getConfig()->getRequestParameter("tpl");
+		$this->fav = oxRegistry :: getConfig()->getRequestParameter("fav");
+		$this->maxval = $this->toFloat(oxRegistry :: getConfig()->getRequestParameter("maxumsatz"));
+		$this->minval = $this->toFloat(oxRegistry :: getConfig()->getRequestParameter("minumsatz"));
+		$this->limit = intval(oxRegistry :: getConfig()->getRequestParameter("limit"));
 		//Bereitstellen der Informationen Für das Template
-		$oSmarty = oxUtilsView::getInstance()->getSmarty();
-		$oSmarty->assign( "oViewConf", $this->_aViewData["oViewConf"]);
-		$oSmarty->assign( "chart", $this->chart);
-		$oSmarty->assign( "date", date("Ymdhis"));
-		$oSmarty->assign( "startdate", $this->startdate);
-		$oSmarty->assign( "enddate", $this->enddate);
-		$oSmarty->assign( "charts", array($this->chart => "checked"));
-		$oSmarty->assign( "arts", array($this->art => "checked"));
-		$oSmarty->assign( "catfilter", array($this->catfilter => "selected"));
-		$oSmarty->assign( "groupvars", $this->groupvars);
-		$oSmarty->assign( "prodfilter", $this->prodfilter);
-		$oSmarty->assign( "sort", $this->sort);
-		$oSmarty->assign( "netto", $this->netto);
-		$oSmarty->assign( "hasMarketing", $this->hasMarkCodes);
-		$oSmarty->assign( "elements", $this->_elem);
-		$oSmarty->assign( "isjson", $this->tpl);
-		if($this->_total >0) $oSmarty->assign( "avg", round($this->_total/$this->_elem, 2));
-		$oSmarty->assign( "height", ($this->chart == "column")?200+$this->_elem*15:"100%");
-
-		if($this->fav != "")
+		$oSmarty = oxRegistry::get("oxUtilsView")->getSmarty();
+		$oSmarty->assign("oViewConf", $this->_aViewData["oViewConf"]);
+		$oSmarty->assign("chart", $this->chart);
+		$oSmarty->assign("date", date("Ymdhis"));
+		$oSmarty->assign("startdate", $this->startdate);
+		$oSmarty->assign("enddate", $this->enddate);
+		$oSmarty->assign("charts", array($this->chart => "checked"));
+		$oSmarty->assign("arts", array($this->art => "checked"));
+		$oSmarty->assign("catfilter", array($this->catfilter => "selected"));
+		$oSmarty->assign("groupvars", $this->groupvars);
+		$oSmarty->assign("prodfilter", $this->prodfilter);
+		$oSmarty->assign("sort", $this->sort);
+		$oSmarty->assign("netto", $this->netto);
+		$oSmarty->assign("hasMarketing", $this->hasMarkCodes);
+		$oSmarty->assign("elements", $this->_elem);
+		$oSmarty->assign("isjson", $this->tpl);
+		if ($this->_total > 0)
+			$oSmarty->assign("avg", round($this->_total / $this->_elem, 2));
+		$oSmarty->assign("height", ($this->chart == "column") ? 200 + $this->_elem * 15 : "100%");
+		if ($this->fav != "")
 		{
-			$oSmarty->assign( "json", $this->save_conf($this->fav) );
-		}else
-		{		
-			$oSmarty->assign( "json", $this->getJSObject());
+			$oSmarty->assign("json", $this->save_conf($this->fav));
 		}
-		
+		else
+		{
+			$oSmarty->assign("json", $this->getJSObject());
+		}
 		return $this->_sThisTemplate;
 	}
-
 	protected function toFloat($val)
 	{
-		$val = str_replace(".","",$val);
-		$val = str_replace(",",".",$val);
+		$val = str_replace(".", "", $val);
+		$val = str_replace(",", ".", $val);
 		$val = floatval($val);
-		return $val;	
+		return $val;
 	}
-	
 	public function save_conf($val)
 	{
-		$config = oxConfig::getInstance();
-		$config->saveShopConfVar("string", "hdiReport", $val); 	
+		$config = oxRegistry :: getConfig();
+		$config->saveShopConfVar("string", "hdiReport", $val);
 		return "OK";
 	}
-	
 	public function load_conf()
 	{
-		$config = oxConfig::getInstance();
-		if($config->getShopConfVar("hdiReport"))
+		$config = oxRegistry :: getConfig();
+		if ($config->getShopConfVar("hdiReport"))
 		{
-			return  $config->getShopConfVar("hdiReport");
+			return $config->getShopConfVar("hdiReport");
 		}
 		return "[]";
 	}
-	
 	//Erstellt den SQL Query und führt Ihn aus
 	//return: Array[][]
 	protected function getQuery()
 	{
-		$oLang = oxLang::getInstance();
+		$oLang = oxRegistry :: getLang();
 		$aQuery = array();
 		//Hilfs Array für jede Reportart
 		//Form: key = Reportart = array ("FELDER die Selectiert werden: [0] = Beschriftung X achse;[1] = Wert; [2]= Beschreibung; [[3]= Stückzahl; [4]= Parentid; ]", "Group By Feld");
-		$aQuery["UmsatzProdukt"] = array("articles.artnum, SUM(articles.netprice) umsatz, concat(articles.title,' '".(($this->groupvars!="checked")?", articles.varselect":"").", '-\n".$oLang->translateString('HDIREPORT_SOLDUNITS').": ', Sum(articles.amount), '\n".$oLang->translateString('HDIREPORT_ORDERS').":',count(distinct oxorder.oxid))",($this->groupvars!="checked")?"articles.oxid":"articles.parentid" );
-		$aQuery["UmsatzDatum"] = array("date(oxorder.oxorderdate), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(date(oxorder.oxorderdate), '-\n".$oLang->translateString('HDIREPORT_SOLDUNITS').": ', Sum(articles.amount), '\n".$oLang->translateString('HDIREPORT_ORDERS').": ',count(distinct oxorder.oxid))","date(oxorder.oxorderdate)");
-		$aQuery["UmsatzMonat"] = array("Concat(Month(oxorder.oxorderdate),' ', Year(oxorder.oxorderdate)), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat('\nVerkaufte Produkte: ', Sum(articles.amount), '\n".$oLang->translateString('HDIREPORT_ORDERS').": ',count(distinct oxorder.oxid))","Year(oxorder.oxorderdate), MONTH(oxorder.oxorderdate)");
-		$aQuery["UmsatzMarketingCode"] = array("oxorder.oxkeycode, SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(oxorder.oxkeycode,'\n".$oLang->translateString('HDIREPORT_SOLDUNITS').": ',Sum(articles.amount), '\n".$oLang->translateString('HDIREPORT_ORDERS').": ', count(distinct oxorder.oxid))","oxorder.oxkeycode");
-
+		$aQuery["UmsatzProdukt"] = array("articles.artnum, SUM(articles.netprice) umsatz, concat(articles.title,' '" . (($this->groupvars != "checked") ? ", articles.varselect" : "") . ", '-\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ":',count(distinct oxorder.oxid))", ($this->groupvars != "checked") ? "articles.oxid" : "articles.parentid");
+		$aQuery["UmsatzDatum"] = array("date(oxorder.oxorderdate), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(date(oxorder.oxorderdate), '-\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ',count(distinct oxorder.oxid))", "date(oxorder.oxorderdate)");
+		$aQuery["UmsatzMonat"] = array("Concat(Month(oxorder.oxorderdate),' ', Year(oxorder.oxorderdate)), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat('\nVerkaufte Produkte: ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ',count(distinct oxorder.oxid))", "Year(oxorder.oxorderdate), MONTH(oxorder.oxorderdate)");
+		$aQuery["UmsatzMarketingCode"] = array("oxorder.oxkeycode, SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(oxorder.oxkeycode,'\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ',Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ', count(distinct oxorder.oxid))", "oxorder.oxkeycode");
 		//Der SQL QUERY mit Platzhaltern für Bestimte Query Elemente.
-		$sQuery = "	SELECT ".$aQuery[$this->art][0].", count(distinct oxorder.oxid) bestellungen, sum(articles.amount) produkte, articles.parentid
-					FROM oxorder 
-						INNER JOIN 
-						( 
-							SELECT oxorderarticles.oxartid oxid, oxorderarticles.OXTITLE title, oxorderarticles.OXAMOUNT amount, oxorderarticles.oxartnum artnum, oxorderarticles.ox".(($this->netto == "checked")?"brut":"net")."price netprice, oxarticles.oxvarselect varselect, oxorderarticles.oxorderid orderid, CASE oxarticles.oxparentid WHEN '' THEN oxorderarticles.oxartid ELSE oxarticles.oxparentid END parentid
-							FROM oxorderarticles 
-							LEFT OUTER JOIN oxarticles 
+		$sQuery = "	SELECT " . $aQuery[$this->art][0] . ", count(distinct oxorder.oxid) bestellungen, sum(articles.amount) produkte, articles.parentid
+					FROM oxorder
+						INNER JOIN
+						(
+							SELECT oxorderarticles.oxartid oxid, oxorderarticles.OXTITLE title, oxorderarticles.OXAMOUNT amount, oxorderarticles.oxartnum artnum, oxorderarticles.ox" . (($this->netto == "checked") ? "brut" : "net") . "price netprice, oxarticles.oxvarselect varselect, oxorderarticles.oxorderid orderid, CASE oxarticles.oxparentid WHEN '' THEN oxorderarticles.oxartid ELSE oxarticles.oxparentid END parentid
+							FROM oxorderarticles
+							LEFT OUTER JOIN oxarticles
 							ON oxorderarticles.OXARTID = oxarticles.OXID
 						) articles
 					ON articles.orderid = oxorder.OXID
-					".
-		$this->getWhereQuery()."
-					GROUP BY ".$aQuery[$this->art][1].$this->valueFilterQuery().
-		$this->getSortQuery().$this->getLimit().";";
+					" . $this->getWhereQuery() . "
+					GROUP BY " . $aQuery[$this->art][1] . $this->valueFilterQuery() . $this->getSortQuery() . $this->getLimit() . ";";
 		//Datenbank Abfrage
-		$oDB = oxDb::getDb();
+		$oDB = oxDb :: getDb();
 		//echo $sQuery."\n\n\n";
-		$rs =  $oDB->execute( $sQuery);
+		$rs = $oDB->execute($sQuery);
 		//print_r($rs);
 		return $rs;
 	}
-
 	protected function getWhereQuery()
 	{
-		return " WHERE oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'".$this->catFilterQuery().$this->prodFilterQuery().$this->markFilterQuery();
+		return " WHERE oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
 	}
-	
 	protected function getSortQuery()
 	{
-		
 		$direction = "DESC";
-		if( oxConfig::getParameter("aufsteigend"))
+		if (oxRegistry :: getConfig()->getRequestParameter("aufsteigend"))
 		{
-			$direction = "ASC";	
-		
+			$direction = "ASC";
 		}
-		$query = " ORDER BY oxorder.oxorderdate ".$direction; 
-		switch($this->sort)
+		$query = " ORDER BY oxorder.oxorderdate " . $direction;
+		switch ($this->sort)
 		{
-			case "Umsatz":
-				$query = " ORDER BY umsatz ".$direction; 
-				break; 
-			case "Produkten": 
-				$query = " ORDER BY produkte ".$direction; 
-				break; 
-			case "Bestellungen":
-				$query = " ORDER BY bestellungen ".$direction;
+			case "Umsatz" :
+				$query = " ORDER BY umsatz " . $direction;
+				break;
+			case "Produkten" :
+				$query = " ORDER BY produkte " . $direction;
+				break;
+			case "Bestellungen" :
+				$query = " ORDER BY bestellungen " . $direction;
 				break;
 		}
-		return $query;;
+		return $query;
+		;
 	}
-	
-
 	//Funktion bestimmt den WHERE Query für das Filtern nach Kategorien
 	protected function catFilterQuery()
 	{
-
 		return "";
 	}
-
 	//Funktion bestimmt den WHERE Query für das filtern nach dem Marketingcode
 	protected function markFilterQuery()
 	{
-		if($this->markfilter != "ohne"&& $this->hasMarkCodes)
+		if ($this->markfilter != "ohne" && $this->hasMarkCodes)
 		{
 			return " AND oxorder.oxkeycode = '$this->markfilter'";
 		}
 		return "";
 	}
-
 	protected function valueFilterQuery()
 	{
 		$query = "";
-		if($this->minval > 0 or $this->maxval > 0)
-		 {
-		  $query =" HAVING ";
-		 }
-		if($this->minval > 0)
+		if ($this->minval > 0 or $this->maxval > 0)
 		{
-			$query .= "umsatz >= ".$this->minval;
+			$query = " HAVING ";
 		}
-				if($this->minval > 0 and $this->maxval > 0)
-		 {
-		  $query .=" AND ";
-		 }
-		if($this->maxval > 0)
+		if ($this->minval > 0)
 		{
-			$query .= "umsatz <= ".$this->maxval;
+			$query .= "umsatz >= " . $this->minval;
+		}
+		if ($this->minval > 0 and $this->maxval > 0)
+		{
+			$query .= " AND ";
+		}
+		if ($this->maxval > 0)
+		{
+			$query .= "umsatz <= " . $this->maxval;
 		}
 		return $query;
 	}
-	
 	//Funktion bestimmt den WHERE Query für das Filtern nach bestimmten Produkten
 	protected function prodFilterQuery()
 	{
 		$query = "";
-		if($this->prodfilter != "")
+		if ($this->prodfilter != "")
 		{
 			$prods = explode(";", $this->prodfilter);
 			$query = " AND (";
-			foreach($prods as $key => $prod)
+			foreach ($prods as $key => $prod)
 			{
-				$query .= "articles.artnum LIKE '".mysql_real_escape_string($prod)."%'"   ;
-				if(count($prods)-1 != $key)
+				$query .= "articles.artnum LIKE '" . mysql_real_escape_string($prod) . "%'";
+				if (count($prods) - 1 != $key)
 				{
 					$query .= " OR ";
 				}
@@ -244,34 +227,31 @@ class hdi_report extends oxAdminView
 		}
 		return $query;
 	}
-	
 	protected function getLimit()
 	{
-		$query = ""; 
-		if($this->limit > 0)
+		$query = "";
+		if ($this->limit > 0)
 		{
-				$query = " LIMIT ".$this->limit;
+			$query = " LIMIT " . $this->limit;
 		}
 		return $query;
-	
 	}
-	
 	public function getJSObject()
 	{
 		$arr = array();
-		$table= $this->getQuery();
-		if(is_object($table))
+		$table = $this->getQuery();
+		if (is_object($table))
 		{
 			$a = $table->GetArray();
 			$this->cleanDataArray($a);
 			$avg = 0;
-			$i=0;
-			foreach($a as $oOrder)
+			$i = 0;
+			foreach ($a as $oOrder)
 			{
 				$oJS = new stdClass;
 				$oJS->title = $oOrder[0];
 				$oJS->value = $oOrder[1];
-				$oJS->description =  $oOrder[2];
+				$oJS->description = $oOrder[2];
 				$oJS->order = $oOrder[3];
 				$oJS->sold = $oOrder[4];
 				$oJS->month = $oOrder["month"];
@@ -281,96 +261,91 @@ class hdi_report extends oxAdminView
 		}
 		return json_encode($arr);
 	}
-
 	protected function cleanString($string)
 	{
-		return str_replace("&amp;"," ",str_replace("&"," ",str_replace("'"," ", $string)));
+		return str_replace("&amp;", " ", str_replace("&", " ", str_replace("'", " ", $string)));
 	}
-
 	public function getCategoryForm()
 	{
 		$form = '<select name="catfilter"><option value="0">nicht Filtern</option>';
-		$oDB = oxDb::getDb();
-		$rs =  $oDB->execute( "SELECT DISTINCT oxtitle FROM oxcategories WHERE oxparentid = 'oxrootid'");
-		if(is_object($rs))
+		$oDB = oxDb :: getDb();
+		$rs = $oDB->execute("SELECT DISTINCT oxtitle FROM oxcategories WHERE oxparentid = 'oxrootid'");
+		if (is_object($rs))
 		{
 			$a = $rs->GetArray();
 			$i = 1;
-			foreach($a as $code)
+			foreach ($a as $code)
 			{
-				$form .= "<option value=\"".$i."\" ".(($i == $this->markfilter)? "selected":"")." >$code[0]</option>";
+				$form .= "<option value=\"" . $i . "\" " . (($i == $this->markfilter) ? "selected" : "") . " >$code[0]</option>";
 				$i++;
 			}
 		}
-		$form .="</select>";
+		$form .= "</select>";
 		return $form;
 	}
-
-	protected function cleanDataArray(&$array)
+	protected function cleanDataArray(& $array)
 	{
-		if($this->groupvars == "checked" && $this->art == "UmsatzProdukt")
+		if ($this->groupvars == "checked" && $this->art == "UmsatzProdukt")
 		{
-			$b= array();
-			$i = 0; 
-			foreach($array as $item)
+			$b = array();
+			$i = 0;
+			foreach ($array as $item)
 			{
 				$tmp = explode("-", $item[0]);
 				$b[$i] = $item;
-				$b[$i][0]= (is_array($tmp))? $tmp[0]: $tmp;
+				$b[$i][0] = (is_array($tmp)) ? $tmp[0] : $tmp;
 				$i++;
 			}
 			$array = $b;
 		}
-		if($this->art == "UmsatzDatum")
+		if ($this->art == "UmsatzDatum")
 		{
-			$b= array();
-			$oLang = oxLang::getInstance();
+			$b = array();
+			$oLang = oxRegistry :: getLang();
 			$month = json_decode($oLang->translateString("HDIREPORT_MONTHVALUES"));
-			
-			foreach($array as $item)
+			foreach ($array as $item)
 			{
 				$tmp = explode("-", $item[2]);
 				$b[$item[0]] = $item;
-				$b[$item[0]][0] = $tmp[2].".".$tmp[1].".".$tmp[0];
-				$b[$item[0]][2] = utf8_encode(strftime('%A, %d. %B %Y',strtotime($b[$item[0]][0])).$tmp[3]);
+				$b[$item[0]][0] = $tmp[2] . "." . $tmp[1] . "." . $tmp[0];
+				$b[$item[0]][2] = utf8_encode(strftime('%A, %d. %B %Y', strtotime($b[$item[0]][0])) . $tmp[3]);
 			}
 			$array = $b;
 		}
-		if($this->art == "UmsatzMonat")
+		if ($this->art == "UmsatzMonat")
 		{
-			$b= array();	
-			$oLang = oxLang::getInstance();
+			$b = array();
+			$oLang = oxRegistry :: getLang();
 			$month = json_decode($oLang->translateString("HDIREPORT_MONTHVALUES"));
-			
-			foreach($array as $item)
+			foreach ($array as $item)
 			{
-
 				$tmp = explode(" ", $item[0]);
 				$b[$item[0]] = $item;
-				$b[$item[0]][0] = $month[$tmp[0]-1]." ".$tmp[1];
-				$b[$item[0]][2] = $b[$item[0]][0].$b[$item[0]][2];
-				$b[$item[0]]["month"] = ($tmp[0]-1);
+				$b[$item[0]][0] = $month[$tmp[0] - 1] . " " . $tmp[1];
+				$b[$item[0]][2] = $b[$item[0]][0] . $b[$item[0]][2];
+				$b[$item[0]]["month"] = ($tmp[0] - 1);
 			}
 			$array = $b;
 		}
 	}
-
 	//Erstellt den HTML Code für den Marketingcode Filter
 	public function getMarketingForm()
 	{
-		if($this->hasMarkCodes){
-			$oLang = oxLang::getInstance();
-			$form = $oLang->translateString('HDIREPORT_FMARKETING').': <br><select class="chaval" name="markfilter" width="50"><option value="ohne" selected="selected">'.$oLang->translateString('HDIREPORT_NOTFILTER').'</option>';
-			$oDB = oxDb::getDb();
-			$rs =  $oDB->execute( "SELECT DISTINCT oxkeycode FROM oxorder");
-			if(is_object($rs)){
+		if ($this->hasMarkCodes)
+		{
+			$oLang = oxRegistry :: getLang();
+			$form = $oLang->translateString('HDIREPORT_FMARKETING') . ': <br><select class="chaval" name="markfilter" width="50"><option value="ohne" selected="selected">' . $oLang->translateString('HDIREPORT_NOTFILTER') . '</option>';
+			$oDB = oxDb :: getDb();
+			$rs = $oDB->execute("SELECT DISTINCT oxkeycode FROM oxorder");
+			if (is_object($rs))
+			{
 				$a = $rs->GetArray();
-				foreach($a as $code)
+				foreach ($a as $code)
 				{
-					$form .= "<option value=\"".$code[0]."\" ".(($code[0] == $this->markfilter)? "selected":"")." >$code[0]</option>";
+					$form .= "<option value=\"" . $code[0] . "\" " . (($code[0] == $this->markfilter) ? "selected" : "") . " >$code[0]</option>";
 				}
 			}
-			$form .="</select>";
+			$form .= "</select>";
 			return $form;
 		}
 		return "";
