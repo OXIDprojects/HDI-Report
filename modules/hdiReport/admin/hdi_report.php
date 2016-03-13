@@ -147,7 +147,7 @@ class hdi_report extends oxAdminView
 	}
 	protected function getWhereQuery()
 	{
-		return " WHERE oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
+		return "WHERE oxorder.OXSTORNO != '1' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
 	}
 	protected function getSortQuery()
 	{
