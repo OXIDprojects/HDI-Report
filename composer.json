@@ -1,0 +1,24 @@
+{
+  "name": "oxid-community/hdiReport",
+  "description": "Module for sale statistics.",
+  "type": "oxideshop-module",
+  "keywords": [
+    "oxid",
+    "modules",
+    "admin"
+  ],
+  "homepage": "https://github.com/OXIDprojects",
+  "license": [
+    "GNU"
+  ],
+  "extra": {
+    "oxideshop": {
+      "target-directory": "oxcom/hdiReport"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "OxidCommunity\\hdiReport\\": "../../../source/modules/oxcom/hdiReport"
+    }
+  }
+}

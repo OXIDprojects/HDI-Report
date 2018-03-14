@@ -1,7 +1,7 @@
 <?php
 $sLangName  = 'English';
 $aLang = array(
-'charset' => 'ISO-8859-15',
+'charset' => 'UTF-8',
 'hdiReport_main' => 'HDIReport',
 'hdiReport_menuitem' => 'Bestellungen Verwalten',
 'hdiReport_menusubitem' => 'HDIReport',

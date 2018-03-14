@@ -1,7 +1,7 @@
 <?php
 $sLangName  = 'Deutsch';
 $aLang = array(
-'charset' => 'ISO-8859-15',
+'charset' => 'UTF-8',
 'hdiReport_main' => 'HDIReport',
 'hdiReport_menuitem' => 'Bestellungen Verwalten',
 'hdiReport_menusubitem' => 'HDIReport',
@@ -54,7 +54,7 @@ $aLang = array(
 'HDIREPORT_SAVED' => "OK gespeichert",
 'HDIREPORT_SAVEDERR' => "Fehler bitte nochmal probieren",
 'HDIREPORT_ASC' => "Aufsteigend?",
-'HDIREPORT_MONTHVALUES' => '["Januar","Februar", "M&auml;rz", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]',
+'HDIREPORT_MONTHVALUES' => '["Januar","Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"]',
 'HDIREPORT_MONTHVALUESSHORT' => '["Jan","Feb","Mrz","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"]',
 'HDIREPORT_WEEKVALUES' => '["Sonntag","Montag", "Dienstag", "Mittwoch", "Donenrstag", "Freitag","Samstag"]',
 'HDIREPORT_WEEKVALUESSHORT' =>'["So","Mo","Di","Mi","Do","Fr","Sa"]'
