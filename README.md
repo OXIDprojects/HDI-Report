@@ -14,8 +14,8 @@ Installation:
 
 Changelog:
 
-	v0.8: Initial;
-	v0.9: History function; Save Favorit View; minor bug fixes.
+	v0.8:   Initial;
+	v0.9:   History function; Save Favorit View; minor bug fixes.
 	v0.9.1: Bug Fixes
 	v0.9.2: New Filter for max and minimum Values; New limit filter; Possible output as table; Layout improvement; New sortcriteria 
 	v0.9.3: Added metadata.php to use the extension in OXID > 4.5 

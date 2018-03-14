@@ -145,8 +145,10 @@ class hdiReport extends AdminController {
 		return $rs;
 	}
 	protected function getWhereQuery() {
-		return "WHERE oxorder.OXSTORNO != '1' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
-	}
+		//return "WHERE oxorder.OXSTORNO != '1' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
+		return " WHERE oxorder.OXSTORNO != '1' AND oxorder.OXFOLDER != 'ANGEBOT' AND oxorder.OXFOLDER != 'ANGEBOTE' AND oxorder.OXFOLDER != 'ORDERFOLDER_PROBLEMS' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
+
+    }
 	protected function getSortQuery() {
 		$direction = "DESC";
 		if (Registry::getConfig()->getRequestParameter("aufsteigend")) {
