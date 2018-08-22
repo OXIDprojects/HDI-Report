@@ -10,7 +10,7 @@ Installation:
 
     composer config repositories.OxidCommunity/hdiReport git https://github.com/Josef-A-Puckl/HDI-Report/
 
-    composer require oxid-community/hdiReport:dev-OXID6  
+    composer require oxid-community/hdireport
 
 Changelog:
 
@@ -22,7 +22,7 @@ Changelog:
 	v0.9.4: Changed structure for use in OXID > 4.7
 	v0.9.5: Moved all files to module-folder for use in OXID > 4.7
 	v0.9.6: Compaiblity to 4.9
-    v2.0:   OXID 6 Module by eComStyle.de
+    v2.0.x: OXID 6 Module by eComStyle.de
 	
 Licensing: 
 

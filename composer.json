@@ -1,5 +1,5 @@
 {
-  "name": "oxid-community/hdiReport",
+  "name": "oxid-community/hdireport",
   "description": "Module for sale statistics.",
   "type": "oxideshop-module",
   "keywords": [
@@ -8,8 +8,9 @@
     "admin"
   ],
   "homepage": "https://github.com/OXIDprojects",
+  "version": "2.0.1",
   "license": [
-    "GNU"
+    "GPL-3.0-only"
   ],
   "extra": {
     "oxideshop": {

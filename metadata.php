@@ -12,7 +12,7 @@ $aModule = array(
     'id'            => 'hdiReport',
     'title'         => 'HDI Report',
     'description'   => 'Module for sale statistics.',
-    'version'       => '2.0',
+    'version'       => '2.0.1',
     'author'        => 'Rafael Dabrowski | HEINER DIRECT GmbH & Co KG',
     'url'           => 'http://www.heiner-direct.com',
     'email'         => 'info@heiner-direct.com',
@@ -22,6 +22,6 @@ $aModule = array(
         'hdi_report' => \OxidCommunity\hdiReport\Controller\Admin\hdiReport::class,
     ),
     'templates' => array(
-        'hdiReport_main.tpl' => 'oxcom/hdiReport/views/admin/tpl/hdiReport_main.tpl',
+        'hdireport_main.tpl' => 'oxcom/hdiReport/views/admin/tpl/hdireport_main.tpl',
     )
 );

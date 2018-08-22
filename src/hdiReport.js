@@ -183,7 +183,11 @@ switch($("input[name=art]:checked").val() )
 
 					table += "<td>" +allData[i]["title"] +"</td>";
 					table += "<td align='right'>" +format(allData[i]["value"]) + " " +currency + "</td>";
-					table += "<td>" +(allData[i]["description"]).replace(/\n/g,"<br>") +"</td>";
+                    if ((allData[i]["description"]) == null) { 
+                        table += "<td> - </td>";
+                    } else {
+    					table += "<td>" +(allData[i]["description"]).replace(/\n/g,"<br>") +"</td>";
+                    }
 					table += "<td>" +allData[i]["order"] +"</td>";
 					table += "<td>" +allData[i]["sold"] +"</td>";
 
