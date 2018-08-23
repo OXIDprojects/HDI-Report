@@ -6,9 +6,15 @@ A more extensive statistical analysis of sales figures. Provides the ability to 
 Originally registered: 2011-12-08 by Rafael Dabrowski on former OXIDforge.
 
 
-Installation: 
+OXID eShop Version:
 
-    composer config repositories.OxidCommunity/hdiReport git https://github.com/Josef-A-Puckl/HDI-Report/
+- **OXID eShop 6**
+
+- OXID eShop 4: [Link](../../tree/b-0.9.x)
+
+Installation:
+
+    composer config repo.OxidCommunity/hdiReport git https://github.com/OXIDprojects/HDI-Report/
 
     composer require oxid-community/hdireport
 
