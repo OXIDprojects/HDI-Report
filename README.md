@@ -2,15 +2,14 @@ HDI-Report
 ==========
 
 A more extensive statistical analysis of sales figures. Provides the ability to graph the sales figures as a bar or line chart. By setting filters further customizable.
-
 Originally registered: 2011-12-08 by Rafael Dabrowski on former OXIDforge.
 
 
 OXID eShop Version:
 
-- **OXID eShop 6**
+- **OXID eShop 6.0 - 6.1**
 
-- OXID eShop 4: [Link](../../tree/b-0.9.x)
+- OXID eShop 4 Download: [Link](../../tree/b-0.9.x)
 
 Installation:
 
