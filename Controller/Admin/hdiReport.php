@@ -222,10 +222,11 @@ class hdiReport extends AdminController
     {
         $query = "";
         if ($this->prodfilter != "") {
+            $oDB = DatabaseProvider::getDb();
             $prods = explode(";", $this->prodfilter);
             $query = " AND (";
             foreach ($prods as $key => $prod) {
-                $query .= "articles.artnum LIKE '" . mysql_real_escape_string($prod) . "%'";
+                $query .= "articles.artnum LIKE " . $oDB->quote($prod . "%");
                 if (count($prods) - 1 != $key) {
                     $query .= " OR ";
                 }
