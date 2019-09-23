@@ -1,8 +1,7 @@
 <?php
-
 /**
  * HDIReport
- * for Oxid eShop 4.5.0
+ * for Oxid eShop 6
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,11 +25,6 @@
  *
  */
 
-/**
- * Changelog:
- * 17.10.2014 - Josef A. Puckl (info@ecomstyle.de) - Compatibility to 4.9
- * 14.03.2018 - Josef A. Puckl (info@ecomstyle.de) - Version 4 OXID eShop 6
- */
 namespace OxidCommunity\hdiReport\Controller\Admin;
 
 use \OxidEsales\Eshop\Application\Controller\Admin\AdminController;
@@ -159,8 +153,11 @@ class hdiReport extends AdminController
 
     protected function getWhereQuery()
     {
-        //return "WHERE oxorder.OXSTORNO != '1' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
-        return " WHERE oxorder.OXSTORNO != '1' AND oxorder.OXFOLDER != 'ANGEBOT' AND oxorder.OXFOLDER != 'ANGEBOTE' AND oxorder.OXFOLDER != 'ORDERFOLDER_PROBLEMS' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
+        $aBlockFolders = Registry::getConfig()->getConfigParam('hdi_blockfolders');
+        foreach ($aBlockFolders as $folder) {
+            $blockFolder .= " AND oxorder.OXFOLDER != '" . $folder . "'";
+        }
+        return " WHERE oxorder.OXSTORNO != '1' " . $blockFolder . " AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
     }
 
     protected function getSortQuery()
@@ -222,7 +219,7 @@ class hdiReport extends AdminController
     {
         $query = "";
         if ($this->prodfilter != "") {
-            $oDB = DatabaseProvider::getDb();
+            $oDB   = DatabaseProvider::getDb();
             $prods = explode(";", $this->prodfilter);
             $query = " AND (";
             foreach ($prods as $key => $prod) {
