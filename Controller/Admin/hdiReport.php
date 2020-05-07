@@ -154,10 +154,11 @@ class hdiReport extends AdminController
     protected function getWhereQuery()
     {
         $aBlockFolders = Registry::getConfig()->getConfigParam('hdi_blockfolders');
+       
         foreach ($aBlockFolders as $folder) {
             $blockFolder .= " AND oxorder.OXFOLDER != '" . $folder . "'";
         }
-        return " WHERE oxorder.OXSTORNO != '1' " . $blockFolder . " AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
+        return " WHERE oxorder.OXSTORNO != '1' " . $blockFolder . " AND oxorder.OXSHOPID = '" . Registry::getConfig()->getShopId() . "' AND oxorder.OXORDERDATE BETWEEN '$this->startdate 00:00' AND '$this->enddate 23:59'" . $this->catFilterQuery() . $this->prodFilterQuery() . $this->markFilterQuery();
     }
 
     protected function getSortQuery()
