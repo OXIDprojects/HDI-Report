@@ -85,7 +85,7 @@ $(document).ready(function () {
     });
     $("#saveFav").click(function () {
 		link = $(this);
-        $.get(selflink, "tpl=json&force_admin_sid=" + $("input[name='force_admin_sid']").val() + "&stoken=" + $("input[name='stoken']").val() + "&cl=hdi_report&fav=" + JSON.stringify($("#diaform").serializeArray()), function (data) {
+        $.get(selflink, "tpl=json&force_admin_sid=" + $("input[name='admin_sid']").val() + "&stoken=" + $("input[name='stoken']").val() + "&cl=hdi_report&fav=" + JSON.stringify($("#diaform").serializeArray()), function (data) {
 			var txt = link.text();
 			if(data == "OK")
 			{

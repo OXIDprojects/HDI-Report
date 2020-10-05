@@ -32,7 +32,7 @@
 <script src="[{$oViewConf->getModuleUrl('hdiReport','src/amcharts/javascript/amcharts.js')}]" type="text/javascript"></script>
 <script src="[{$oViewConf->getModuleUrl('hdiReport','src/amcharts/javascript/raphael.js')}]" type="text/javascript"></script>
 <script type="text/javascript">
-var selflink = "[{$oViewConf->getSelfLink()}]";
+var selflink = "[{$oView->getSelfLink()}]";
 var resourceurl = "[{$oViewConf->getModuleUrl('hdiReport','src/')}]";
 var currency = "[{ $oActCur->name }]";
 var favView = [{$oView->load_conf()}];

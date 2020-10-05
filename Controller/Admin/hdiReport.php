@@ -16,12 +16,12 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  @author HEINER DIRECT GmbH & Co.KG
- *  @author Rafael Dabrowski
- *  @link http://www-heiner-direct.com
+ * @author HEINER DIRECT GmbH & Co.KG
+ * @author Rafael Dabrowski
+ * @link http://www-heiner-direct.com
  *
- *  @copyright HEINER DIRECT GmbH & Co. KG 2011
- *  @license GPLv3
+ * @copyright HEINER DIRECT GmbH & Co. KG 2011
+ * @license GPLv3
  *
  */
 
@@ -31,17 +31,20 @@ use \OxidEsales\Eshop\Application\Controller\Admin\AdminController;
 use \OxidEsales\Eshop\Core\Registry;
 use \OxidEsales\Eshop\Core\DatabaseProvider;
 use stdClass;
+
 class hdiReport extends AdminController
 {
     //Definition der ZEntralen Daten
     //TemplateFile
+    protected const MODULE_ID = 'module:hdiReport';
     protected $_sThisTemplate = "hdireport_main.tpl";
-    public $_sChart           = '';
-    protected $_oOrderList    = null;
-    protected $_aFields       = [];
-    protected $_avg           = 0;
-    protected $stdRef         = "4005001";
-    protected $hasMarkCodes   = false;
+    public $_sChart = '';
+    protected $_oOrderList = null;
+    protected $_aFields = [];
+    protected $_avg = 0;
+    protected $stdRef = "4005001";
+    protected $hasMarkCodes = false;
+
     //Render Funktion wird bei jedem Seitenaufruf aufgerufen
     public function render()
     {
@@ -49,21 +52,21 @@ class hdiReport extends AdminController
         parent::render();
         setlocale(LC_TIME, "de_DE");
         //Auslesen/definieren der Formular Werte
-        $this->startdate  = (Registry::getConfig()->getRequestParameter("startdate") != "") ? Registry::getConfig()->getRequestParameter("startdate") : date("Y-m-") . "01";
-        $this->enddate    = (Registry::getConfig()->getRequestParameter("enddate") != "") ? Registry::getConfig()->getRequestParameter("enddate") : date("Y-m-d");
-        $this->art        = (Registry::getConfig()->getRequestParameter("art") != "") ? Registry::getConfig()->getRequestParameter("art") : "UmsatzDatum";
-        $this->chart      = (Registry::getConfig()->getRequestParameter("chart") != "") ? Registry::getConfig()->getRequestParameter("chart") : "column";
-        $this->catfilter  = (Registry::getConfig()->getRequestParameter("catfilter") != "") ? Registry::getConfig()->getRequestParameter("catfilter") : "0";
+        $this->startdate = (Registry::getConfig()->getRequestParameter("startdate") != "") ? Registry::getConfig()->getRequestParameter("startdate") : date("Y-m-") . "01";
+        $this->enddate = (Registry::getConfig()->getRequestParameter("enddate") != "") ? Registry::getConfig()->getRequestParameter("enddate") : date("Y-m-d");
+        $this->art = (Registry::getConfig()->getRequestParameter("art") != "") ? Registry::getConfig()->getRequestParameter("art") : "UmsatzDatum";
+        $this->chart = (Registry::getConfig()->getRequestParameter("chart") != "") ? Registry::getConfig()->getRequestParameter("chart") : "column";
+        $this->catfilter = (Registry::getConfig()->getRequestParameter("catfilter") != "") ? Registry::getConfig()->getRequestParameter("catfilter") : "0";
         $this->markfilter = (Registry::getConfig()->getRequestParameter("markfilter") != "ohne") ? Registry::getConfig()->getRequestParameter("markfilter") : "ohne";
         $this->prodfilter = (Registry::getConfig()->getRequestParameter("prodfilter") != "") ? Registry::getConfig()->getRequestParameter("prodfilter") : "";
-        $this->groupvars  = Registry::getConfig()->getRequestParameter("groupvars");
-        $this->sort       = Registry::getConfig()->getRequestParameter("sort");
-        $this->netto      = Registry::getConfig()->getRequestParameter("netto");
-        $this->tpl        = Registry::getConfig()->getRequestParameter("tpl");
-        $this->fav        = Registry::getConfig()->getRequestParameter("fav");
-        $this->maxval     = $this->toFloat(Registry::getConfig()->getRequestParameter("maxumsatz"));
-        $this->minval     = $this->toFloat(Registry::getConfig()->getRequestParameter("minumsatz"));
-        $this->limit      = intval(Registry::getConfig()->getRequestParameter("limit"));
+        $this->groupvars = Registry::getConfig()->getRequestParameter("groupvars");
+        $this->sort = Registry::getConfig()->getRequestParameter("sort");
+        $this->netto = Registry::getConfig()->getRequestParameter("netto");
+        $this->tpl = Registry::getConfig()->getRequestParameter("tpl");
+        $this->fav = Registry::getConfig()->getRequestParameter("fav");
+        $this->maxval = $this->toFloat(Registry::getConfig()->getRequestParameter("maxumsatz"));
+        $this->minval = $this->toFloat(Registry::getConfig()->getRequestParameter("minumsatz"));
+        $this->limit = intval(Registry::getConfig()->getRequestParameter("limit"));
         //Bereitstellen der Informationen Für das Template
         $oSmarty = Registry::getUtilsView()->getSmarty();
         $oSmarty->assign("oViewConf", $this->_aViewData["oViewConf"]);
@@ -94,6 +97,11 @@ class hdiReport extends AdminController
         return $this->_sThisTemplate;
     }
 
+    public function getSelfLink()
+    {
+        return html_entity_decode($this->getViewConfig()->getSelfLink());
+    }
+
     protected function toFloat($val)
     {
         $val = str_replace(".", "", $val);
@@ -105,7 +113,8 @@ class hdiReport extends AdminController
     public function save_conf($val)
     {
         $config = Registry::getConfig();
-        $config->saveShopConfVar("string", "hdiReport", $val);
+        $shopID = $config->getShopId();
+        $config->saveShopConfVar("str", "hdiReport", $val, $shopID, self::MODULE_ID);
         return "OK";
     }
 
@@ -122,13 +131,13 @@ class hdiReport extends AdminController
     //return: Array[][]
     protected function getQuery()
     {
-        $oLang  = Registry::getLang();
+        $oLang = Registry::getLang();
         $aQuery = [];
         //Hilfs Array für jede Reportart
         //Form: key = Reportart = array ("FELDER die Selectiert werden: [0] = Beschriftung X achse;[1] = Wert; [2]= Beschreibung; [[3]= Stückzahl; [4]= Parentid; ]", "Group By Feld");
-        $aQuery["UmsatzProdukt"]       = ["articles.artnum, SUM(articles.netprice) umsatz, concat(articles.title,' '" . (($this->groupvars != "checked") ? ", articles.varselect" : "") . ", '-\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ":',count(distinct oxorder.oxid))", ($this->groupvars != "checked") ? "articles.oxid" : "articles.parentid"];
-        $aQuery["UmsatzDatum"]         = ["date(oxorder.oxorderdate), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(date(oxorder.oxorderdate), '-\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ',count(distinct oxorder.oxid))", "date(oxorder.oxorderdate)"];
-        $aQuery["UmsatzMonat"]         = ["Concat(Month(oxorder.oxorderdate),' ', Year(oxorder.oxorderdate)), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat('\nVerkaufte Produkte: ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ',count(distinct oxorder.oxid))", "Year(oxorder.oxorderdate), MONTH(oxorder.oxorderdate)"];
+        $aQuery["UmsatzProdukt"] = ["articles.artnum, SUM(articles.netprice) umsatz, concat(articles.title,' '" . (($this->groupvars != "checked") ? ", articles.varselect" : "") . ", '-\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ":',count(distinct oxorder.oxid))", ($this->groupvars != "checked") ? "articles.oxid" : "articles.parentid"];
+        $aQuery["UmsatzDatum"] = ["date(oxorder.oxorderdate), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(date(oxorder.oxorderdate), '-\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ',count(distinct oxorder.oxid))", "date(oxorder.oxorderdate)"];
+        $aQuery["UmsatzMonat"] = ["Concat(Month(oxorder.oxorderdate),' ', Year(oxorder.oxorderdate)), SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat('\nVerkaufte Produkte: ', Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ',count(distinct oxorder.oxid))", "Year(oxorder.oxorderdate), MONTH(oxorder.oxorderdate)"];
         $aQuery["UmsatzMarketingCode"] = ["oxorder.oxkeycode, SUM(oxorder.oxtotalordersum/(Select Count(*) From oxorderarticles where oxorder.oxid = oxorderarticles.oxorderid)) umsatz, concat(oxorder.oxkeycode,'\n" . $oLang->translateString('HDIREPORT_SOLDUNITS') . ": ',Sum(articles.amount), '\n" . $oLang->translateString('HDIREPORT_ORDERS') . ": ', count(distinct oxorder.oxid))", "oxorder.oxkeycode"];
         //Der SQL QUERY mit Platzhaltern für Bestimte Query Elemente.
         $sQuery = " SELECT " . $aQuery[$this->art][0] . ", count(distinct oxorder.oxid) bestellungen, sum(articles.amount) produkte, articles.parentid
@@ -219,7 +228,7 @@ class hdiReport extends AdminController
     {
         $query = "";
         if ($this->prodfilter != "") {
-            $oDB   = DatabaseProvider::getDb();
+            $oDB = DatabaseProvider::getDb();
             $prods = explode(";", $this->prodfilter);
             $query = " AND (";
             foreach ($prods as $key => $prod) {
@@ -244,22 +253,22 @@ class hdiReport extends AdminController
 
     public function getJSObject()
     {
-        $arr   = [];
+        $arr = [];
         $table = $this->getQuery();
         if (is_object($table)) {
             $a = $table->fetchAll();
             $this->cleanDataArray($a);
             $avg = 0;
-            $i   = 0;
+            $i = 0;
             foreach ($a as $oOrder) {
-                $oJS              = new stdClass();
-                $oJS->title       = $oOrder[0];
-                $oJS->value       = $oOrder[1];
+                $oJS = new stdClass();
+                $oJS->title = $oOrder[0];
+                $oJS->value = $oOrder[1];
                 $oJS->description = $oOrder[2];
-                $oJS->order       = $oOrder[3];
-                $oJS->sold        = $oOrder[4];
-                $oJS->month       = $oOrder["month"];
-                $arr[$i]          = $oJS;
+                $oJS->order = $oOrder[3];
+                $oJS->sold = $oOrder[4];
+                $oJS->month = $oOrder["month"];
+                $arr[$i] = $oJS;
                 $i++;
             }
         }
@@ -274,8 +283,8 @@ class hdiReport extends AdminController
     public function getCategoryForm()
     {
         $form = '<select name="catfilter"><option value="0">nicht Filtern</option>';
-        $oDB  = DatabaseProvider::getDb();
-        $rs   = $oDB->select("SELECT DISTINCT oxtitle FROM oxcategories WHERE oxparentid = 'oxrootid'");
+        $oDB = DatabaseProvider::getDb();
+        $rs = $oDB->select("SELECT DISTINCT oxtitle FROM oxcategories WHERE oxparentid = 'oxrootid'");
         if (is_object($rs)) {
             $a = $rs->fetchAll();
             $i = 1;
@@ -294,34 +303,34 @@ class hdiReport extends AdminController
             $b = [];
             $i = 0;
             foreach ($array as $item) {
-                $tmp      = explode("-", $item[0]);
-                $b[$i]    = $item;
+                $tmp = explode("-", $item[0]);
+                $b[$i] = $item;
                 $b[$i][0] = (is_array($tmp)) ? $tmp[0] : $tmp;
                 $i++;
             }
             $array = $b;
         }
         if ($this->art == "UmsatzDatum") {
-            $b     = [];
+            $b = [];
             $oLang = Registry::getLang();
             $month = json_decode($oLang->translateString("HDIREPORT_MONTHVALUES"));
             foreach ($array as $item) {
-                $tmp            = explode("-", $item[2]);
-                $b[$item[0]]    = $item;
+                $tmp = explode("-", $item[2]);
+                $b[$item[0]] = $item;
                 $b[$item[0]][0] = $tmp[2] . "." . $tmp[1] . "." . $tmp[0];
                 $b[$item[0]][2] = utf8_encode(strftime('%A, %d. %B %Y', strtotime($b[$item[0]][0])) . $tmp[3]);
             }
             $array = $b;
         }
         if ($this->art == "UmsatzMonat") {
-            $b     = [];
+            $b = [];
             $oLang = Registry::getLang();
             $month = json_decode($oLang->translateString("HDIREPORT_MONTHVALUES"));
             foreach ($array as $item) {
-                $tmp                  = explode(" ", $item[0]);
-                $b[$item[0]]          = $item;
-                $b[$item[0]][0]       = $month[$tmp[0] - 1] . " " . $tmp[1];
-                $b[$item[0]][2]       = $b[$item[0]][0] . $b[$item[0]][2];
+                $tmp = explode(" ", $item[0]);
+                $b[$item[0]] = $item;
+                $b[$item[0]][0] = $month[$tmp[0] - 1] . " " . $tmp[1];
+                $b[$item[0]][2] = $b[$item[0]][0] . $b[$item[0]][2];
                 $b[$item[0]]["month"] = ($tmp[0] - 1);
             }
             $array = $b;
@@ -333,9 +342,9 @@ class hdiReport extends AdminController
     {
         if ($this->hasMarkCodes) {
             $oLang = Registry::getLang();
-            $form  = $oLang->translateString('HDIREPORT_FMARKETING') . ': <br><select class="chaval" name="markfilter" width="50"><option value="ohne" selected="selected">' . $oLang->translateString('HDIREPORT_NOTFILTER') . '</option>';
-            $oDB   = DatabaseProvider::getDb();
-            $rs    = $oDB->select("SELECT DISTINCT oxkeycode FROM oxorder");
+            $form = $oLang->translateString('HDIREPORT_FMARKETING') . ': <br><select class="chaval" name="markfilter" width="50"><option value="ohne" selected="selected">' . $oLang->translateString('HDIREPORT_NOTFILTER') . '</option>';
+            $oDB = DatabaseProvider::getDb();
+            $rs = $oDB->select("SELECT DISTINCT oxkeycode FROM oxorder");
             if (is_object($rs)) {
                 $a = $rs->GetArray();
                 foreach ($a as $code) {
