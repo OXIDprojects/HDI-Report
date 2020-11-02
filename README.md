@@ -28,7 +28,8 @@ Changelog:
 	v0.9.5: Moved all files to module-folder for use in OXID > 4.7
 	v0.9.6: Compatibility to 4.9
     v2.0.x: OXID 6 Module by eComStyle.de
-    v2.0.4: Compatibility to 6.2
+    v2.0.3: Compatibility to 6.2
+    v2.0.4: Backwards Compatibility to 6.1 and 6.0
 	
 Licensing: 
 
