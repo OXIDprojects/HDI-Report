@@ -7,7 +7,7 @@ Originally registered: 2011-12-08 by Rafael Dabrowski on former OXIDforge.
 
 OXID eShop Version:
 
-- **OXID eShop 6.0 - 6.1**
+- **OXID eShop 6.0 - 6.2**
 
 - OXID eShop 4 Download: [Link](../../tree/b-0.9.x)
 
@@ -26,8 +26,9 @@ Changelog:
 	v0.9.3: Added metadata.php to use the extension in OXID > 4.5 
 	v0.9.4: Changed structure for use in OXID > 4.7
 	v0.9.5: Moved all files to module-folder for use in OXID > 4.7
-	v0.9.6: Compaiblity to 4.9
+	v0.9.6: Compatibility to 4.9
     v2.0.x: OXID 6 Module by eComStyle.de
+    v2.0.4: Compatibility to 6.2
 	
 Licensing: 
 
