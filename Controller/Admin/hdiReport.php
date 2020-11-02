@@ -36,7 +36,7 @@ class hdiReport extends AdminController
 {
     //Definition der ZEntralen Daten
     //TemplateFile
-    protected const MODULE_ID = 'module:hdiReport';
+    const MODULE_ID = 'module:hdiReport';
     protected $_sThisTemplate = "hdireport_main.tpl";
     public $_sChart = '';
     protected $_oOrderList = null;

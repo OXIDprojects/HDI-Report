@@ -8,12 +8,12 @@
  * 23.09.2019 - Josef A. Puckl | eComStyle.de - Moduleinstellung: Bestellordner nicht auswerten.
  */
 
-$sMetadataVersion = '2.0';
+$sMetadataVersion = '2.1';
 $aModule = [
     'id' => 'hdiReport',
     'title' => 'HDI Report',
     'description' => 'Module for sale statistics.',
-    'version' => '2.0.3',
+    'version' => '2.0.4',
     'author' => 'Rafael Dabrowski | HEINER DIRECT GmbH & Co KG',
     'url' => 'http://www.heiner-direct.com',
     'email' => 'info@heiner-direct.com',
