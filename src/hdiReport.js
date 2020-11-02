@@ -94,7 +94,7 @@ $(document).ready(function () {
 			{
 				link.text(aLang["saved"]);
 			}else{
-				link.text(aLang["savoseederr"]);
+				link.text(aLang["savederr"]);
 			}
             link.delay(800).queue(function(){link.text(txt);});
         });
