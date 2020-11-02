@@ -85,15 +85,18 @@ $(document).ready(function () {
     });
     $("#saveFav").click(function () {
 		link = $(this);
-        $.get(selflink, "tpl=json&force_admin_sid=" + $("input[name='admin_sid']").val() + "&stoken=" + $("input[name='stoken']").val() + "&cl=hdi_report&fav=" + JSON.stringify($("#diaform").serializeArray()), function (data) {
+		var admin_id = $("input[name='admin_sid']").val();
+		var force_admin_id = $("input[name='force_admin_sid']").val();
+		admin_id = admin_id ? admin_id : force_admin_id;
+        $.get(selflink, "tpl=json&force_admin_sid=" + admin_id + "&stoken=" + $("input[name='stoken']").val() + "&cl=hdi_report&fav=" + JSON.stringify($("#diaform").serializeArray()), function (data) {
 			var txt = link.text();
 			if(data == "OK")
 			{
 				link.text(aLang["saved"]);
 			}else{
-				link.text(aLang["savederr"]);
+				link.text(aLang["savoseederr"]);
 			}
-			link.delay(800).queue(function(){link.text(txt);});
+            link.delay(800).queue(function(){link.text(txt);});
         });
     });
     $("#selbest").click(function () {
