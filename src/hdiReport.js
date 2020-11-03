@@ -96,7 +96,7 @@ $(document).ready(function () {
 			}else{
 				link.text(aLang["savederr"]);
 			}
-            link.delay(800).queue(function(){link.text(txt);});
+            setTimeout(function(){link.text(txt);}, 1000);
         });
     });
     $("#selbest").click(function () {
