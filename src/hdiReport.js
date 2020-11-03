@@ -62,6 +62,7 @@ $(document).ready(function () {
         firstDay: 1,
         yearRange: [-20, 0]
     });
+
     $(".readonly").click(function(){return false;});
 	$("#seltabl").change(function(){switchtable()});
 	
