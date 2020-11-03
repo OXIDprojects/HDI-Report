@@ -207,53 +207,56 @@ function setDate(option) {
     end = $("#end").data("dateinput");
     date = new Date();
     switch (option) {
-    case 1:
-        date.setDate(1);
-        start.setValue(date);
-        date.setMonth(date.getMonth() + 1);
-        date.setDate(0);
-        end.setValue(date);
-        getData();
-        break;
-    case 2:
-        date.setMonth(date.getMonth() - 1);
-        date.setDate(1);
-        start.setValue(date);
-        date.setMonth(date.getMonth() + 1);
-        date.setDate(0);
-        end.setValue(date);
-        getData();
-        break;
-    case 3:
-        date.setMonth(0);
-        date.setDate(1);
-        start.setValue(date);
-        date.setFullYear(date.getFullYear() + 1);
-        date.setMonth(0);
-        date.setDate(0);
-        end.setValue(date);
-        getData();
-        break;
-    case 4:
-        date.setFullYear(date.getFullYear() - 1);
-        date.setMonth(0);
-        date.setDate(1);
-        start.setValue(date);
-        enddate = new Date();
-        enddate.setMonth(0);
-        enddate.setDate(0);
-        end.setValue(enddate);
-        getData();
-        break;
-    case 5:
-        date.setFullYear(1900);
-        date.setMonth(0);
-        date.setDate(1);
-        start.setValue(date);
-        date.setFullYear(2020);
-        end.setValue(date);
-        getData();
-        break;
+        case 1:
+            date.setDate(1);
+            start.setValue(date);
+            date.setMonth(date.getMonth() + 1);
+            date.setDate(0);
+            end.setValue(date);
+            getData();
+            break;
+        case 2:
+            date.setMonth(date.getMonth() - 1);
+            date.setDate(1);
+            start.setValue(date);
+            date.setMonth(date.getMonth() + 1);
+            date.setDate(0);
+            end.setValue(date);
+            getData();
+            break;
+        case 3:
+            date.setMonth(0);
+            date.setDate(1);
+            start.setValue(date);
+            date.setFullYear(date.getFullYear() + 1);
+            date.setMonth(0);
+            date.setDate(0);
+            end.setValue(date);
+            getData();
+            break;
+        case 4:
+            date.setFullYear(date.getFullYear() - 1);
+            date.setMonth(0);
+            date.setDate(1);
+            start.setValue(date);
+            enddate = new Date();
+            enddate.setMonth(0);
+            enddate.setDate(0);
+            end.setValue(enddate);
+            getData();
+            break;
+        case 5:
+            date.setFullYear(1900);
+            date.setMonth(0);
+            date.setDate(1);
+            start.setValue(date);
+            enddate = new Date();
+            enddate.setMonth(enddate.getMonth());
+            enddate.setDate(enddate.getDate());
+            enddate.setFullYear(enddate.getFullYear());
+            end.setValue(enddate);
+            getData();
+            break;
     }
 }
 
