@@ -30,6 +30,7 @@ Changelog:
     v2.0.x: OXID 6 Module by eComStyle.de
     v2.0.3: Compatibility to 6.2
     v2.0.4: Backwards Compatibility to 6.1 and 6.0
+    v2.0.5: date filter "all" fixed; "save" label fixed; version removed from composer.json
 	
 Licensing: 
 
