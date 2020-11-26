@@ -18,7 +18,7 @@
   },
   "autoload": {
     "psr-4": {
-      "OxidCommunity\\hdiReport\\": "../../../source/modules/oxcom/hdiReport"
+      "OxidCommunity\\hdiReport\\": ""
     }
   }
 }
